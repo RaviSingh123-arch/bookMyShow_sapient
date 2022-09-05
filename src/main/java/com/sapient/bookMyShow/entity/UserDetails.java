@@ -4,22 +4,21 @@ import lombok.Builder;
 import lombok.Data;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+
+import javax.persistence.*;
 import java.util.List;
 
 @Data
 @Builder
 @Entity
 @Transactional
-public class User {
+public class UserDetails {
 
     @Id
+    @GeneratedValue
     private String id;
     private String userName;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userDetails")
     private List<Booking> bookingHistory;
 
 }

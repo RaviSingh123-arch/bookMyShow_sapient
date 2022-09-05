@@ -35,14 +35,14 @@ public class BMSBookingServiceImpl implements BMSBookingService {
     @Override
     public BookTicketResponse bookTicketsForShow(BookTicketRequest bookTicketRequest) throws SeatPermanentlyUnavailableException, SeatTemporaryUnavailableException {
         Optional<Show> show = showRepository.findById(bookTicketRequest.getShowId());
-        Optional<User> user = userRepository.findById(bookTicketRequest.getUserId());
+        Optional<UserDetails> user = userRepository.findById(bookTicketRequest.getUserId());
         List<Seat> seats = seatRepository.findAllById(bookTicketRequest.getSeatIds());
         if (isAnySeatAlreadyBooked(show.get(), seats)) {
             throw new SeatPermanentlyUnavailableException();
         }
         seatLockProvider.lockSeats(show.get(),seats , user.get());
         final Booking newBooking = Booking.builder().bookingStatus(BookingStatus.Created).seats(seats)
-                .show(show.get()).user(user.get()).build();
+                .show(show.get()).userDetails(user.get()).build();
         bookingRepository.save(newBooking);
         return BookTicketResponse.builder().bookingDetails(newBooking).build();
         // TODO: Create timer for booking expiry

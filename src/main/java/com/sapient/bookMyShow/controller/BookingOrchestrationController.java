@@ -5,11 +5,13 @@ import com.sapient.bookMyShow.entity.response.BookTicketResponse;
 import com.sapient.bookMyShow.service.booking.orchestration.BookingOrchestratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-@RestController("bookings")
+@RestController
+@RequestMapping("bookings")
 public class BookingOrchestrationController {
 
     @Autowired

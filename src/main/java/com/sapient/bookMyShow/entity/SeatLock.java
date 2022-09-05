@@ -30,15 +30,12 @@ public class SeatLock {
     private Show show;
     private Integer timeoutInSeconds;
     private LocalDateTime lockTime;
-    @OneToOne
-    private User lockedBy;
 
-    public SeatLock(Seat seat, Show show, Integer timeoutInSeconds, LocalDateTime now, User user) {
+    public SeatLock(Seat seat, Show show, Integer timeoutInSeconds, LocalDateTime now) {
         this.seat = seat;
         this.show = show;
         this.timeoutInSeconds = timeoutInSeconds;
         this.lockTime = LocalDateTime.now();
-        this.lockedBy = user;
     }
 
     public boolean isLockExpired() {

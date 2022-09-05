@@ -26,7 +26,7 @@ public class Booking {
     @OneToMany
     private List<Seat> seats;
     @OneToOne
-    private User user;
+    private UserDetails userDetails;
     @Enumerated(EnumType.STRING)
     private BookingStatus bookingStatus;
     @OneToMany

@@ -2,6 +2,8 @@ package com.sapient.bookMyShow.controller;
 
 import com.sapient.bookMyShow.entity.request.BookTicketRequest;
 import com.sapient.bookMyShow.entity.response.BookTicketResponse;
+import com.sapient.bookMyShow.exception.SeatPermanentlyUnavailableException;
+import com.sapient.bookMyShow.exception.SeatTemporaryUnavailableException;
 import com.sapient.bookMyShow.service.BMSBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +23,9 @@ public class BMSBookingController {
     public BookTicketResponse bookTicketsForShow(@Valid BookTicketRequest bookTicketRequest) {
             try {
            return bookingService.bookTicketsForShow(bookTicketRequest); }
-           catch (Exception e) {
+           catch (SeatTemporaryUnavailableException e) {
+
+           }catch (SeatPermanentlyUnavailableException e) {
 
            }
            return null;

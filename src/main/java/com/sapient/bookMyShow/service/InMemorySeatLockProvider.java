@@ -3,7 +3,7 @@ package com.sapient.bookMyShow.service;
 import com.sapient.bookMyShow.entity.Seat;
 import com.sapient.bookMyShow.entity.SeatLock;
 import com.sapient.bookMyShow.entity.Show;
-import com.sapient.bookMyShow.entity.User;
+import com.sapient.bookMyShow.entity.UserDetails;
 import com.sapient.bookMyShow.exception.SeatTemporaryUnavailableException;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ public class InMemorySeatLockProvider implements SeatLockProvider {
 
     @Override
     synchronized public void lockSeats(final Show show, final List<Seat> seats,
-                                       @NonNull final User user) throws SeatTemporaryUnavailableException {
+                                       @NonNull final UserDetails userDetails) throws SeatTemporaryUnavailableException {
         for (Seat seat : seats) {
             if (isSeatLocked(show, seat)) {
                 throw new SeatTemporaryUnavailableException();
@@ -29,23 +29,13 @@ public class InMemorySeatLockProvider implements SeatLockProvider {
         }
 
         for (Seat seat : seats) {
-            lockSeat(show, seat, user, lockTimeout);
+            lockSeat(show, seat, userDetails, lockTimeout);
         }
     }
 
-    @Override
-    public void unlockSeats(@NonNull final Show show, @NonNull final List<Seat> seats, @NonNull final User user) {
-        for (Seat seat: seats) {
-            if (validateLock(show, seat, user)) {
-                unlockSeat(show, seat);
-            }
-        }
-    }
 
-    @Override
-    public boolean validateLock(@NonNull final Show show, @NonNull final Seat seat, @NonNull final User user) {
-        return isSeatLocked(show, seat) && locks.get(show).get(seat).getLockedBy().equals(user);
-    }
+
+
 
     @Override
     public List<Seat> getLockedSeats(@NonNull final Show show) {
@@ -69,11 +59,11 @@ public class InMemorySeatLockProvider implements SeatLockProvider {
         locks.get(show).remove(seat);
     }
 
-    private void lockSeat(final Show show, final Seat seat, final User user, final Integer timeoutInSeconds) {
+    private void lockSeat(final Show show, final Seat seat, final UserDetails userDetails, final Integer timeoutInSeconds) {
         if (!locks.containsKey(show)) {
             locks.put(show, new HashMap<>());
         }
-        final SeatLock lock = new SeatLock(seat, show, timeoutInSeconds, LocalDateTime.now(), user);
+        final SeatLock lock = new SeatLock(seat, show, timeoutInSeconds, LocalDateTime.now());
         locks.get(show).put(seat, lock);
     }
 

@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface ShowRepository  extends JpaRepository<Show, String> {
 
-    @Query(nativeQuery = true, value = "Select * from Show where city = ?, movieId = ?, startTime = ?" )
+    @Query(nativeQuery = true, value = "Select * from Show where city = ?, movieId = ?, trunc(startTime) = ?)" )
     List<Show> findByCityMovieIdAndStartTime(String city, String movieId, LocalDateTime showDate);
 }
