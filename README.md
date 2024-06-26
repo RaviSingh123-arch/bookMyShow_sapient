@@ -72,5 +72,3 @@ o	What decisions and actions were taken for decision closure?
 
 Disclaimer:
 This document is meant to assess your technical skills and is classified as "Sapient confidential". This document by any means shall not be used/shared without permission from Sapient, non-adherence to this can get your candidature blocked for employment with Sapient. 
-
-test
